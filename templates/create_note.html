@@ -3,9 +3,10 @@
 <head><title>Создать заметку</title></head>
 <body>
   <h1>Создать новую заметку</h1>
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     Автор: <input type="text" name="author"><br><br>
     Текст: <textarea name="text"></textarea><br><br>
+    Прикрепить файл: <input type="file" name="file"><br><br>
     <button type="submit">Сохранить</button>
   </form>
 </body>

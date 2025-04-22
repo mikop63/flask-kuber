@@ -1,17 +1,11 @@
-# Используем официальный Python образ
-FROM python:3.10
+FROM python:3.10-slim
 
-# Устанавливаем рабочую директорию
 WORKDIR /app
-
-# Копируем файлы
-COPY . .
-
-# Устанавливаем зависимости
+COPY app/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Открываем порт
-EXPOSE 5000
+COPY app/ .
+RUN mkdir /resource && chmod 777 /resource
 
-# Запуск приложения
+EXPOSE 5000
 CMD ["python", "app.py"]

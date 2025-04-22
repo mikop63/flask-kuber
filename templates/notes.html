@@ -5,7 +5,12 @@
   <h1>Все заметки</h1>
   <ul>
     {% for note in notes %}
-      <li><strong>{{ note.author }}</strong> ({{ note.create_at }}): {{ note.text }}</li>
+      <li>
+        <strong>{{ note.author }}</strong> ({{ note.create_at }}): {{ note.text }}
+        {% if note.file_name %}
+          <a href="{{ url_for('uploaded_file', filename=note.file_name) }}">Скачать файл</a>
+        {% endif %}
+      </li>
     {% endfor %}
   </ul>
   <a href="/">На главную</a>
