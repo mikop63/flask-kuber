@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-notes
+  namespace: flask-notes-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-notes
+  template:
+    metadata:
+      labels:
+        app: flask-notes
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values: ["flask-notes"]
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: flask-notes
+        image: your-registry/flask-notes:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MYSQL_HOST
+          value: mysql.flask-notes-app.svc.cluster.local
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-credentials
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-credentials
+              key: password
+        resources:
+          requests:
+            cpu:    100m
+            memory: 200Mi
+          limits:
+            cpu:    500m
+            memory: 500Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        volumeMounts:
+        - name: resource
+          mountPath: /resource
+      volumes:
+      - name: resource
+        persistentVolumeClaim:
+          claimName: resource-pvc
