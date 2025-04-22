@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>Все заметки</title></head>
+<body>
+  <h1>Все заметки</h1>
+  <ul>
+    {% for note in notes %}
+      <li><strong>{{ note.author }}</strong> ({{ note.create_at }}): {{ note.text }}</li>
+    {% endfor %}
+  </ul>
+  <a href="/">На главную</a>
+</body>
+</html>
