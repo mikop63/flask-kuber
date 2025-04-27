@@ -7,8 +7,8 @@ cd app
 ```
 # 2. Собираем и пушим Docker‑образ
 ```bash
-docker build -t your‑registry/flask-notes:latest .
-docker push your‑registry/flask-notes:latest
+docker build -t mikop/flask-notes:latest .
+docker push mikop/flask-notes:latest
 ```
 # 3. Установить NFS-CSI драйвер
 ```bash

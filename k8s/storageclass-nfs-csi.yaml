@@ -5,7 +5,7 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: nfs-server.flask-notes-app.svc.cluster.local # это имя сервиса из nfs-server.yaml
-  share: /exports
+  share: /                                              # Монтируем корень экспортов (fsid=0)
 reclaimPolicy: Retain
 volumeBindingMode: Immediate
 mountOptions:

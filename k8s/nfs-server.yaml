@@ -30,23 +30,25 @@ spec:
         app: nfs-server
     spec:
       containers:
-        - name: nfs-server
-          image: itsthenetwork/nfs-server-alpine:latest
-          ports:
-            - name: nfs
-              containerPort: 2049
-            - name: mountd
-              containerPort: 20048
-            - name: rpcbind
-              containerPort: 111
-          securityContext:
-            privileged: true
-          env:
-            - name: SHARED_DIRECTORY
-              value: /exports
-          volumeMounts:
-            - name: nfs-data
-              mountPath: /exports
+      - name: nfs-server
+        image: itsthenetwork/nfs-server-alpine:latest
+        ports:
+        - name: nfs
+          containerPort: 2049
+        - name: mountd
+          containerPort: 20048
+        - name: rpcbind
+          containerPort: 111
+        securityContext:
+          privileged: true       # обязательно для NFS в k8s :contentReference[oaicite:2]{index=2}
+        env:
+        - name: SHARED_DIRECTORY
+          value: /exports
+        volumeMounts:
+        - name: nfs-data
+          mountPath: /exports
       volumes:
         - name: nfs-data
-          emptyDir: {}
+          hostPath:
+            path: /nfs-vol       # каталог на каждой ноде
+            type: DirectoryOrCreate  # создаст, если нет :contentReference[oaicite:2]{index=2}

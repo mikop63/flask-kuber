@@ -24,7 +24,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: flask-notes
-        image: your-registry/flask-notes:latest
+        image: mikop/flask-notes:latest
         ports:
         - containerPort: 5000
         env:
