@@ -60,9 +60,9 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
         volumeMounts:
-        - name: resource
-          mountPath: /resource
+        - name: resource-storage
+          mountPath: /app/resource
       volumes:
-      - name: resource
+      - name: resource-storage
         persistentVolumeClaim:
           claimName: resource-pvc

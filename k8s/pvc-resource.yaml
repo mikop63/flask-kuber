@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  volumeName: resource-pv
+  storageClassName: nfs-csi  # имя StorageClass для NFS-CSI
