@@ -17,27 +17,32 @@ spec:
       containers:
       - name: mysql
         image: mysql:8.0
-        env:
-        - name: MYSQL_DATABASE
-          value: flask_notes
+        imagePullPolicy: Always
         envFrom:
-        - secretRef:
-            name: mysql-credentials
+          - secretRef:
+              name: mysql-credentials    # подтягиваем все ключи из секрета
+        env:
+          - name: MYSQL_DATABASE         # отдельная переменная
+            value: flask_notes
+#          - name: MYSQL_ROOT_PASSWORD
+#            value: mysql_root_password
         ports:
-        - containerPort: 3306
+          - containerPort: 3306
         readinessProbe:
           exec:
             command: ["mysqladmin","ping","-h","127.0.0.1"]
           initialDelaySeconds: 10
           periodSeconds: 5
         volumeMounts:
-        - name: data
-          mountPath: /var/lib/mysql
+          - name: data
+            mountPath: /var/lib/mysql
   volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 10Gi
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: nfs-csi      # ← обязательно, иначе PVC Pending
+        resources:
+          requests:
+            storage: 5Gi

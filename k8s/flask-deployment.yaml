@@ -24,7 +24,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: flask-notes
-        image: mikop/flask-notes:latest
+        image: cypok/flask-notes:latest
         ports:
         - containerPort: 5000
         env:
@@ -47,18 +47,18 @@ spec:
           limits:
             cpu:    500m
             memory: 500Mi
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 5000
-          initialDelaySeconds: 15
-          periodSeconds: 20
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 10
+#        livenessProbe:
+#          httpGet:
+#            path: /health
+#            port: 5000
+#          initialDelaySeconds: 15
+#          periodSeconds: 20
+#        readinessProbe:
+#          httpGet:
+#            path: /health
+#            port: 5000
+#          initialDelaySeconds: 5
+#          periodSeconds: 10
         volumeMounts:
         - name: resource-storage
           mountPath: /app/resource

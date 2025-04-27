@@ -31,8 +31,12 @@ kubectl apply -f k8s/mysql-service.yaml
 kubectl apply -f k8s/flask-deployment.yaml
 kubectl apply -f k8s/flask-service.yaml
 kubectl apply -f k8s/ingress.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.12.1/deploy/static/provider/cloud/deploy.yaml
+kubectl patch svc ingress-nginx-controller -n ingress-nginx -p '{"spec": {"type": "LoadBalancer", "externalIPs":["158.160.181.12"]}}'
 ```
 # 5. Проверяем статус
 ```bash
 kubectl -n flask-notes-app get all
+
+kubectl get svc ingress-nginx-controller -n ingress-nginx
 ```
